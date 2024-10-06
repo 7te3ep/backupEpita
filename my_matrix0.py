@@ -23,10 +23,9 @@ def is_matrix(parameter):
 
 def print_matrix(parameter):
     if is_matrix(parameter) == False :
-        print("Not a matrix")
-        return
+        return "not a matrix"
     
-    asciiTable = ""
+    asciiTable = "\n Matrix : \n\n"
     maxSize = 0
     
     for i in range(len(parameter)):
@@ -37,12 +36,10 @@ def print_matrix(parameter):
     
     for i in range(len(parameter)):
         for j in range(len(parameter[i])):
-            asciiTable += str(parameter[i][j])
+            asciiTable += " | " + str(parameter[i][j])
             asciiTable += (maxSize + 5 - len(str(parameter[i][j])))* " "  
-        if (i != len(parameter)-1):
-            asciiTable += "\n"
-    print(asciiTable)
-
+        asciiTable += "\n" + ((maxSize+5)*(len(parameter[0])-1)+1) * "-" +"\n"
+    return asciiTable
 
 def row_count(matrix):
     if is_matrix(matrix) == False :
@@ -82,10 +79,8 @@ def is_square(matrix):
     return row_count(matrix) == column_count(matrix)
 
 def is_identity(matrix):
-    if is_matrix(matrix) == False:
+    if is_matrix(matrix) == False or not(is_square(matrix)):
         return None
-    if not(is_square(matrix)):
-        return False
 
     for i in range(len(matrix)):
         for j in range(len(matrix[i])):
@@ -107,11 +102,9 @@ def is_diagonal(matrix):
                 return False
     return True
 
-def is_symmetric(matrix): 
-    if is_matrix(matrix) == False:
+def is_symetric(matrix): 
+    if is_matrix(matrix) == False or not(is_square(matrix)):
         return None
-    if not(is_square(matrix)):
-        return False
     for i in range(row_count(matrix)):
         for j in range(column_count(matrix)):
             if i != j : 
@@ -165,30 +158,20 @@ def transpose(matrix):
 def scalar_add(scalar,matrix):  
     if is_matrix(matrix) == False or (type(scalar) != int and type(scalar) != float) :
         return None
-
-    mAdded = []
-    for i in range(len(matrix)):
-        mAdded.append(matrix[i][:])
-
     for i in range(len(matrix)):
         for j in range(len(matrix[i])):
-            mAdded[i][j] += scalar
-    return mAdded
+            matrix[i][j] += scalar
+    return matrix
+
 
 def scalar_multiply(scalar,matrix):  
     if is_matrix(matrix) == False or (type(scalar) != int and type(scalar) != float) :
         return None
-
-    mMultiplied = []
-    for i in range(len(matrix)):
-        mMultiplied.append(matrix[i][:])
-
     for i in range(len(matrix)):
         for j in range(len(matrix[i])):
-            mMultiplied[i][j] *= scalar
-    return mMultiplied
-
-
+            matrix[i][j] *= scalar
+    return matrix
+ 
 def add(matrix1,matrix2):
     if is_matrix(matrix1)==False or is_matrix(matrix2)==False:
         return None
@@ -268,10 +251,8 @@ def is_invertible(matrix):
         return False
     return True
 
-def inverse(matrix):
-    if is_matrix(matrix) == False: 
-        return None
-    if is_invertible(matrix) == False :
+def invertible(matrix):
+    if is_matrix(matrix) == False or is_invertible(matrix) == False :
         return None
 
     if size(matrix) == 4 :
@@ -315,28 +296,21 @@ def inverse(matrix):
     scalar = 1/det
     invertedMat = scalar_multiply(scalar,detMat)
     # calculer determinant
-    # gen matrice det
+    #gen matrice det
     # assign correct signe
     # transposer la matrice
     # scalar 1/(det matrix) * matrice transposé
     return invertedMat
-
-
-# TEST
-#print_matrix([[1,2],[1,2]])
-#mDet = [
-#        [4,-1,1],[4,5,3],[-2,0,0]]
-#m = [[2,1,-1],[-3,-1,2],[-2,1,2]]
-#m1 = [[9,8,7],[6,5,4]]
-#m22 = [[9,8,7,6],[6,5,4,9],[1,2,2,2],[3,4,5,6]]
-#m33 = [[2,1],[3,4]]
-#m2 = [[0,0,0],[0,0,0],[0,0,0]]
-#m3 = [[1,0],[0,1],[1,0]]
-#m4 = [ [1, -1], [-1, 2], [0, 3] ]
-#m5 = [ [0, 0], [0, 0],[9,0] ]
-#print(inverse(m5))
-#mAA = [[0,0],[0,0]]
-#print(is_triangular([[1,1],[1,1]]))
+mDet = [
+        [4,-1,1],[4,5,3],[-2,0,0]]
+m = [[2,1,-1],[-3,-1,2],[-2,1,2]]
+m1 = [[9,8,7],[6,5,4]]
+m22 = [[9,8,7,6],[6,5,4,9],[1,2,2,2],[3,4,5,6]]
+m33 = [[2,1],[3,4]]
+m2 = [[0,0,0],[0,0,0],[0,0,0]]
+m3 = [[1,0,1],[1,1,0],[0,0,1]]
+mAA = [[0,0],[0,0]]
+print(is_triangular([[1,1],[1,1]]))
 '''print(print_matrix(m))
 print(print_matrix(transpose(m)))
 print(is_matrix(11))
